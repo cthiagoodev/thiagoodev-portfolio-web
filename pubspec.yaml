@@ -1,0 +1,12 @@
+name: _
+publish_to: none
+
+environment:
+  sdk: ^3.9.2
+
+workspace:
+  - app
+  - common
+  - portfolio
+  - blog
+  - dependencies
