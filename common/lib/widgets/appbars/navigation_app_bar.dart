@@ -2,17 +2,7 @@ import 'dart:ui' as ui;
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class NavigationAppBarLeading {
-  final Widget widget;
-  final VoidCallback? onTap;
-
-  const NavigationAppBarLeading({
-    required this.widget,
-    this.onTap,
-  });
-}
-
-class NavigationAppBarOption {
+final class NavigationAppBarOption {
   final String label;
   final VoidCallback onTap;
 
@@ -22,16 +12,14 @@ class NavigationAppBarOption {
   });
 }
 
-class NavigationAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final NavigationAppBarLeading? leading;
+final class NavigationAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final Widget leading;
   final List<NavigationAppBarOption> options;
 
-  static final double _scrolledHeight = kToolbarHeight + 8.0.h;
-  static final double _verticalPadding = 4.h;
-  static const double _blurSigma = 10.0;
+  static final double _scrolledHeight = kToolbarHeight + 15.h;
 
   const NavigationAppBar({
-    this.leading,
+    this.leading = const SizedBox.shrink(),
     this.options = const [],
     super.key,
   });
@@ -44,100 +32,40 @@ class NavigationAppBar extends StatelessWidget implements PreferredSizeWidget {
     final Color backgroundColor = Theme.of(context)
         .colorScheme
         .surface
-        .withAlpha(51);
+        .withValues(alpha: .5);
 
-    return ClipRect(
-      child: _buildBackdropFilter(
-        child: _buildBackgroundContainer(
-          color: backgroundColor,
-          child: _buildSafeArea(
-            child: _buildCenteringContainer(
-              child: _buildHorizontalPadding(
-                child: _buildMainRow(context),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBackdropFilter({required Widget child}) {
-    return BackdropFilter(
-      filter: ui.ImageFilter.blur(sigmaX: _blurSigma, sigmaY: _blurSigma),
-      child: child,
-    );
-  }
-
-  Widget _buildBackgroundContainer({required Color color, required Widget child}) {
-    return Container(
-      height: preferredSize.height,
-      color: color,
-      child: child,
-    );
-  }
-
-  Widget _buildSafeArea({required Widget child}) {
     return SafeArea(
       bottom: false,
-      child: child,
-    );
-  }
-
-  Widget _buildCenteringContainer({required Widget child}) {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(vertical: _verticalPadding),
-      constraints: BoxConstraints(maxWidth: 1024.w),
-      child: child,
-    );
-  }
-
-  Widget _buildHorizontalPadding({required Widget child}) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
-      child: child,
+      child: Container(
+        width: 1.sw,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+        ),
+        child: _buildMainRow(context),
+      ),
     );
   }
 
   Widget _buildMainRow(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      spacing: 50.w,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildLeadingWidget(context),
+        leading,
         _buildOptionsWidget(context),
       ],
-    );
-  }
-
-
-  Widget _buildLeadingWidget(BuildContext context) {
-    if (leading == null) {
-      return const SizedBox.shrink();
-    }
-
-    if (leading!.onTap == null) {
-      return leading!.widget;
-    }
-
-    return GestureDetector(
-      onTap: leading!.onTap,
-      child: leading!.widget,
     );
   }
 
   Widget _buildOptionsWidget(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: options.map((option) {
-        bool isFirst = options.first == option;
-        return Padding(
-          padding: EdgeInsets.only(left: isFirst ? 0 : 8.w),
-          child: TextButton(
-            onPressed: option.onTap,
-            child: Text(option.label),
-          ),
+        return TextButton(
+          onPressed: option.onTap,
+          child: Text(option.label),
         );
       }).toList(),
     );

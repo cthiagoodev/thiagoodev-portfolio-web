@@ -2,6 +2,12 @@
   "configVersion": 2,
   "packages": [
     {
+      "name": "animate_gradient",
+      "rootUri": "file:///Users/thiagosousa/.pub-cache/hosted/pub.dev/animate_gradient-0.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "async",
       "rootUri": "file:///Users/thiagosousa/.pub-cache/hosted/pub.dev/async-2.13.0",
       "packageUri": "lib/",

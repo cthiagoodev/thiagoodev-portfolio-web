@@ -7,28 +7,46 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final primaryColor = theme.colorScheme.primary;
+    final secondaryColor = theme.colorScheme.secondary;
+    final surfaceColor = theme.colorScheme.surface;
     return Scaffold(
       extendBodyBehindAppBar: true,
+      backgroundColor: surfaceColor,
       appBar: NavigationAppBar(
         leading: _buildLeading(context),
         options: _buildOptions(context),
       ),
-      body: ListView.builder(
-        itemCount: 50,
-        itemBuilder: (context, index) => ListTile(
-          title: Text('Content Item $index'),
-        ),
+      body: AnimateGradient(
+        primaryColors: [
+          surfaceColor,
+          primaryColor,
+          surfaceColor,
+        ],
+        secondaryColors: [
+          secondaryColor,
+          surfaceColor,
+          secondaryColor,
+        ],
+        primaryBegin: Alignment.topLeft,
+        primaryEnd: Alignment.bottomRight,
+        secondaryBegin: Alignment.bottomRight,
+        secondaryEnd: Alignment.topLeft,
+        duration: const Duration(seconds: 10),
+        child: Container(),
       ),
     );
   }
 
-  NavigationAppBarLeading _buildLeading(BuildContext context) {
-    return NavigationAppBarLeading(
-      onTap: () => context.go('/'),
-      widget: TextButton(
-        onPressed: null,
-        child: Text(
-          'thiagoodev',
+  Widget _buildLeading(BuildContext context) {
+    final theme = Theme.of(context);
+    return GestureDetector(
+      onTap: () => context.go("/"),
+      child: Text(
+        'thiagoodev',
+        style: theme.textTheme.titleMedium?.copyWith(
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
