@@ -1,6 +1,7 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:portfolio/modules/home/presentation/widgets/background_gradient_effect.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -8,8 +9,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final primaryColor = theme.colorScheme.primary;
-    final secondaryColor = theme.colorScheme.secondary;
     final surfaceColor = theme.colorScheme.surface;
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -18,22 +17,7 @@ class HomeScreen extends StatelessWidget {
         leading: _buildLeading(context),
         options: _buildOptions(context),
       ),
-      body: AnimateGradient(
-        primaryColors: [
-          surfaceColor,
-          primaryColor,
-          surfaceColor,
-        ],
-        secondaryColors: [
-          secondaryColor,
-          surfaceColor,
-          secondaryColor,
-        ],
-        primaryBegin: Alignment.topLeft,
-        primaryEnd: Alignment.bottomRight,
-        secondaryBegin: Alignment.bottomRight,
-        secondaryEnd: Alignment.topLeft,
-        duration: const Duration(seconds: 10),
+      body: BackgroundGradientEffect(
         child: Container(),
       ),
     );
