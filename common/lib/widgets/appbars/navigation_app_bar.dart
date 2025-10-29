@@ -1,6 +1,7 @@
-import 'dart:ui' as ui;
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+final double navigationAppBarHeight = kToolbarHeight + 15.h;
 
 final class NavigationAppBarOption {
   final String label;
@@ -16,8 +17,6 @@ final class NavigationAppBar extends StatelessWidget implements PreferredSizeWid
   final Widget leading;
   final List<NavigationAppBarOption> options;
 
-  static final double _scrolledHeight = kToolbarHeight + 15.h;
-
   const NavigationAppBar({
     this.leading = const SizedBox.shrink(),
     this.options = const [],
@@ -25,22 +24,17 @@ final class NavigationAppBar extends StatelessWidget implements PreferredSizeWid
   });
 
   @override
-  Size get preferredSize => Size.fromHeight(_scrolledHeight);
+  Size get preferredSize => Size.fromHeight(navigationAppBarHeight);
 
   @override
   Widget build(BuildContext context) {
-    final Color backgroundColor = Theme.of(context)
-        .colorScheme
-        .surface
-        .withValues(alpha: .5);
-
     return SafeArea(
       bottom: false,
       child: Container(
         width: 1.sw,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: Colors.transparent,
         ),
         child: _buildMainRow(context),
       ),

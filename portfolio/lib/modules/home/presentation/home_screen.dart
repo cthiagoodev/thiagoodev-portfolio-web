@@ -1,7 +1,8 @@
 import 'package:common/common.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Hero;
 import 'package:dependencies/dependencies.dart';
 import 'package:portfolio/modules/home/presentation/widgets/background_gradient_effect.dart';
+import 'package:portfolio/modules/home/presentation/widgets/hero.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,6 +11,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final surfaceColor = theme.colorScheme.surface;
+
+    final List<Widget> mainSections = [
+      Hero(),
+    ];
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: surfaceColor,
@@ -18,7 +24,19 @@ class HomeScreen extends StatelessWidget {
         options: _buildOptions(context),
       ),
       body: BackgroundGradientEffect(
-        child: Container(),
+        child: SafeArea(
+          top: true,
+          child: SingleChildScrollView(
+            child: Column(
+              children: mainSections.map((section) {
+                return SizedBox(
+                  height: 1.sh - navigationAppBarHeight,
+                  child: section,
+                );
+              }).toList(),
+            ),
+          ),
+        ),
       ),
     );
   }

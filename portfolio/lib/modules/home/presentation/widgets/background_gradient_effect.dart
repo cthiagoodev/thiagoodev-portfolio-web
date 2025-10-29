@@ -10,16 +10,13 @@ final class BackgroundGradientEffect extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final surfaceColor = colorScheme.surface;
-    final primaryColor = colorScheme.primary;
-    final secondaryColor = colorScheme.secondary;
+    final primaryColor = colorScheme.primary.withValues(alpha: .1);
     return AnimateGradient(
       primaryColors: [
         surfaceColor,
-        secondaryColor,
         primaryColor,
       ],
       secondaryColors: [
-        secondaryColor,
         primaryColor,
         surfaceColor,
       ],
