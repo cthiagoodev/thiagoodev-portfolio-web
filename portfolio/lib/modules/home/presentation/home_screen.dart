@@ -30,6 +30,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               children: mainSections.map((section) {
                 return SizedBox(
+                  width: 1.sw,
                   height: 1.sh - navigationAppBarHeight,
                   child: section,
                 );

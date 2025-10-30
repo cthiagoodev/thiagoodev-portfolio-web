@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -21,21 +22,28 @@ class _MainInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
       spacing: 10.w,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      runSpacing: 10.h,
+      direction: Axis.horizontal,
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         _CircularProfileImage(),
-        Wrap(
-          spacing: 7.h,
-          alignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.start,
-          direction: Axis.vertical,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 30.h,
           children: [
-            _buildTitle(context),
-            _buildSubTitle(context),
-            _buildDescription(context),
+            Column(
+              spacing: 7.h,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildTitle(context),
+                _buildSubTitle(context),
+                _buildDescription(context),
+              ],
+            ),
+            _MainButtons(),
           ],
         )
       ],
@@ -44,10 +52,22 @@ class _MainInfo extends StatelessWidget {
 
   Widget _buildTitle(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return Text(
-      "Sou Thiago Sousa",
-      style: theme.textTheme.displayLarge?.copyWith(
-        fontWeight: FontWeight.w700,
+    return ShaderMask(
+      blendMode: BlendMode.srcIn,
+      shaderCallback: (bounds) {
+        return LinearGradient(
+          colors: [
+            theme.colorScheme.onSurface,
+            theme.colorScheme.tertiary,
+            theme.colorScheme.onTertiary,
+          ],
+        ).createShader(bounds);
+      },
+      child: Text(
+        "Sou Thiago Sousa",
+        style: theme.textTheme.displayLarge?.copyWith(
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
@@ -104,15 +124,50 @@ class _CircularProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Container(
       width: radius,
       height: radius,
       decoration: BoxDecoration(
         color: Colors.grey,
         shape: BoxShape.circle,
+        border: BoxBorder.all(
+          color: theme.colorScheme.tertiary,
+          width: 2,
+        ),
+        image: DecorationImage(
+          alignment: Alignment.center,
+          fit: BoxFit.cover,
+          image: AssetImage(AssetsImages.profile),
+        ),
       ),
     );
   }
 }
 
+class _MainButtons extends StatelessWidget {
+  const _MainButtons({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      spacing: 5.w,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton.icon(
+          onPressed: () {},
+          icon: HeroIcon(HeroIcons.envelope),
+          label: Text("Entrar em contato"),
+        ),
+
+        OutlinedButton.icon(
+          onPressed: () {},
+          iconAlignment: IconAlignment.end,
+          icon: HeroIcon(HeroIcons.arrowRight),
+          label: Text("Blog"),
+        ),
+      ],
+    );
+  }
+}
 

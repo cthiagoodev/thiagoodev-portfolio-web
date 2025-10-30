@@ -17,6 +17,9 @@ class AppTheme {
   static final TextStyle _darkTextButtonTheme =
     _baseTextTheme.bodySmall!.copyWith(fontWeight: FontWeight.w700);
 
+  static final TextStyle _darkButtonTheme =
+    _baseTextTheme.bodySmall!.copyWith(fontWeight: FontWeight.w700);
+
   static Color _darkTextButtonForegroundColor(Set<WidgetState> states) {
     if(states.contains(WidgetState.hovered)) {
       return AppColors.primaryLight;
@@ -24,11 +27,14 @@ class AppTheme {
     return AppColors.neutral;
   }
 
-  static Color _darkOverlayColor(Set<WidgetState> states) {
-    if(states.contains(WidgetState.hovered)) {
-      return AppColors.neutral.withValues(alpha: .1);
-    }
-    return Colors.transparent;
+  static double _darkElevatedButtonElevation(Set<WidgetState> states) {
+    return states.contains(WidgetState.hovered) ? 5 : 0;
+  }
+
+  static Color? _darkElevatedButtonShadowColor(Set<WidgetState> states) {
+    return states.contains(WidgetState.hovered)
+        ? AppColors.primaryLight.withValues(alpha: .5)
+        : null;
   }
 
   static final ThemeData darkTheme = ThemeData(
@@ -62,9 +68,48 @@ class AppTheme {
             borderRadius: BorderRadius.circular(10)),
         ),
         foregroundColor: WidgetStateProperty.resolveWith(_darkTextButtonForegroundColor),
-        overlayColor: WidgetStateProperty.resolveWith(_darkOverlayColor),
+        overlayColor: WidgetStatePropertyAll(AppColors.neutral.withValues(alpha: .1)),
       ),
-    )
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        alignment: Alignment.center,
+        padding: WidgetStatePropertyAll(EdgeInsets.all(25)),
+        iconAlignment: IconAlignment.start,
+        iconColor: WidgetStatePropertyAll(Colors.black),
+        iconSize: WidgetStatePropertyAll(18),
+        textStyle: WidgetStatePropertyAll(_darkButtonTheme),
+        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100)),
+        ),
+        foregroundColor: WidgetStatePropertyAll(Colors.black),
+        backgroundColor: WidgetStatePropertyAll(AppColors.primaryLight),
+        overlayColor: WidgetStatePropertyAll(AppColors.primary.withValues(alpha: .1)),
+        visualDensity: VisualDensity.compact,
+        elevation: WidgetStateProperty.resolveWith(_darkElevatedButtonElevation),
+        shadowColor: WidgetStateProperty.resolveWith(_darkElevatedButtonShadowColor)
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        alignment: Alignment.center,
+        padding: WidgetStatePropertyAll(EdgeInsets.all(25)),
+        iconAlignment: IconAlignment.start,
+        iconColor: WidgetStatePropertyAll(AppColors.neutral),
+        iconSize: WidgetStatePropertyAll(18),
+        textStyle: WidgetStatePropertyAll(_darkButtonTheme),
+        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100)),
+        ),
+        side: WidgetStatePropertyAll(BorderSide(
+          color: AppColors.neutral,
+        )),
+        foregroundColor: WidgetStatePropertyAll(AppColors.neutral),
+        overlayColor: WidgetStatePropertyAll(Colors.transparent),
+        visualDensity: VisualDensity.compact,
+        elevation: WidgetStatePropertyAll(0),
+      ),
+    ),
   );
 
   static final ThemeData lightTheme = ThemeData(
